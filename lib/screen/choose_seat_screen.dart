@@ -46,6 +46,7 @@ class _ChooseSeatScreenState extends State<ChooseSeatScreen> {
                   Expanded(
                     flex: 10,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           widget.movie.title,

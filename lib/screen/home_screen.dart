@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_movie_app_ui_slicing/screen/movie_detail_screen.dart';
+import 'dart:ui';
 
-import '../data/movie.dart';
-import '../data/movies_data.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_movie_app_ui_slicing/data/movies_data.dart';
+import 'package:flutter_movie_app_ui_slicing/ui_constants.dart';
+
+import '../widget/home_screen_bottom_bar.dart';
+import '../widget/home_screen_carousel.dart';
+import '../widget/home_screen_top_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   final String userName;
@@ -11,105 +15,102 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> genres = ['Fantasy', 'Adventure'];
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Now Playing'),
-      ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CircleAvatar(
-                    child: Text(userName[0]),
+      body: Stack(
+        children: [
+          Stack(
+            children: [
+              Positioned(
+                top: 0,
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(
+                    movieList[0].imageUrl,
+                    fit: BoxFit.fitWidth,
+                    alignment: Alignment.topCenter,
                   ),
-                  Text(
-                    'Hello, $userName!',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Icon(Icons.notifications_none)
-                ],
-              ),
-            ),
-            Expanded(
-              child: GridView.builder(
-                padding: EdgeInsets.all(16),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.7,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
                 ),
-                itemCount: movieList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Movie movie = movieList[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MovieDetailScreen(movie: movie),
-                        ),
-                      );
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.network(
-                              movie.imageUrl,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
+              ),
+              Positioned.fill(
+                child: BackdropFilter(
+                  // filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                  filter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),
+                  child: Container(),
+                ),
+              )
+            ],
+          ),
+          SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 10),
+                HomeScreenTopBar(),
+                SizedBox(height: 40),
+                HomeScreenCarousel(),
+                SizedBox(height: 36),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.access_time_outlined,
+                      color: CustomColors.anotherGray,
+                      size: 20,
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      '2h 23m',
+                      style: CustomFonts.body,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24 * 2),
+                  child: Text(
+                    'Fantastic Beasts: The Secrets of Dumbledore',
+                    style: CustomFonts.title,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: genres
+                      .map(
+                        (genre) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: CustomColors.transparent,
+                              borderRadius: BorderRadius.circular(24),
+                              border: Border.all(
+                                color: CustomColors.gray,
+                                width: 1,
+                                strokeAlign: StrokeAlign.inside,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                              child: Text(
+                                genre,
+                                style: CustomFonts.body,
+                              ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          movie.title,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          movie.genre,
-                          style: TextStyle(color: Colors.grey),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
+                      )
+                      .toList(),
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.home_outlined),
-                  Icon(Icons.search),
-                  Icon(Icons.favorite_border_outlined),
-                  Icon(Icons.account_circle_outlined),
-                ],
-              ),
+                Spacer(),
+                HomeScreenBottomBar(),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

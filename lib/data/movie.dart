@@ -4,7 +4,7 @@ class Movie {
   final String overview;
   final String imageUrl;
   final double imdbRating;
-  final String genre;
+  final List<String> genres;
   final String duration;
   final String releaseDate;
 
@@ -14,7 +14,7 @@ class Movie {
     required this.overview,
     required this.imageUrl,
     required this.imdbRating,
-    required this.genre,
+    required this.genres,
     required this.duration,
     required this.releaseDate,
   });

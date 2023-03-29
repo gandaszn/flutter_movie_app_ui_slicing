@@ -48,7 +48,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        widget.movie.genre,
+                        widget.movie.genres.join(', '),
                         style: TextStyle(fontSize: 18),
                       ),
                       SizedBox(height: 10),
