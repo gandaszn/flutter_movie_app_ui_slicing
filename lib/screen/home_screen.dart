@@ -8,15 +8,24 @@ import '../widget/home_screen_bottom_bar.dart';
 import '../widget/home_screen_carousel.dart';
 import '../widget/home_screen_top_bar.dart';
 
-class HomeScreen extends StatelessWidget {
-  final String userName;
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
-  const HomeScreen({Key? key, this.userName = 'new friend'}) : super(key: key);
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentCarouselIndex = 0;
+
+  void _onPageChanged(index, reason) {
+    setState(() {
+      _currentCarouselIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> genres = ['Fantasy', 'Adventure'];
-
     return Scaffold(
       body: Stack(
         children: [
@@ -24,14 +33,32 @@ class HomeScreen extends StatelessWidget {
             children: [
               Positioned(
                 top: 0,
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 2,
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.network(
-                    movieList[0].imageUrl,
-                    fit: BoxFit.fitWidth,
-                    alignment: Alignment.topCenter,
-                  ),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.network(
+                        movieList[_currentCarouselIndex].imageUrl,
+                        fit: BoxFit.fitWidth,
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
+                    AnimatedSwitcher(
+                      duration: Duration(milliseconds: 500),
+                      child: Container(
+                        key:
+                            ValueKey(movieList[_currentCarouselIndex].imageUrl),
+                        height: MediaQuery.of(context).size.height / 2,
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.network(
+                          movieList[_currentCarouselIndex].imageUrl,
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.topCenter,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Positioned.fill(
@@ -50,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 10),
                 HomeScreenTopBar(),
                 SizedBox(height: 40),
-                HomeScreenCarousel(),
+                HomeScreenCarousel(onPageChanged: _onPageChanged),
                 SizedBox(height: 36),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      '2h 23m',
+                      movieList[_currentCarouselIndex].duration,
                       style: CustomFonts.body,
                     ),
                   ],
@@ -71,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24 * 2),
                   child: Text(
-                    'Fantastic Beasts: The Secrets of Dumbledore',
+                    movieList[_currentCarouselIndex].title,
                     style: CustomFonts.title,
                     textAlign: TextAlign.center,
                   ),
@@ -79,7 +106,8 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: genres
+                  children: movieList[_currentCarouselIndex]
+                      .genres
                       .map(
                         (genre) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
