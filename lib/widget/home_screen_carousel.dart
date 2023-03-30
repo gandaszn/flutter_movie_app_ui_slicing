@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../data/movies_data.dart';
+import '../screen/movie_detail_screen.dart';
 
 class HomeScreenCarousel extends StatelessWidget {
   final Function(int, CarouselPageChangedReason)? onPageChanged;
@@ -11,12 +12,23 @@ class HomeScreenCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> imageSliders = movieList
         .map(
-          (movie) => ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: SizedBox(
-              child: Image.network(
-                movie.imageUrl,
-                fit: BoxFit.cover,
+          (movie) => GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MovieDetailScreen(movie: movie),
+                ),
+              );
+            },
+            child: Hero(
+              tag: 'poster_${movie.id}',
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.network(
+                  movie.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
