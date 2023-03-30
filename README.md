@@ -8,4 +8,4 @@ Dependencies:
 
 ⚠️ Under Construction ⚠️
 
-![flutter_movie_app_ui_slicing 2](https://user-images.githubusercontent.com/129122862/228427443-e88d3409-7567-41a8-9de0-907ce654c252.png)
+![flutter_movie_app_ui_slicing 2 (1)](https://user-images.githubusercontent.com/129122862/228967602-657281e6-2bc6-4bac-9ade-a1c6357e7977.png)
