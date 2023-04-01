@@ -8,6 +8,4 @@ Dependencies:
  * [book_my_seat](https://pub.dev/packages/book_my_seat) ^1.0.1
  * [date_picker_timeline](https://pub.dev/packages/date_picker_timeline) ^1.2.3
 
-⚠️ Under Construction ⚠️
-
 ![flutter_movie_app_ui_slicing final](https://user-images.githubusercontent.com/129122862/229299434-5cfc835c-ac01-46c5-9ef8-295a8ad4833b.png)
