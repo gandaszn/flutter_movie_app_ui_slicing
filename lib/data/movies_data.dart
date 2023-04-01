@@ -9,7 +9,7 @@ List<Movie> movieList = [
     imageUrl:
         "https://m.media-amazon.com/images/M/MV5BYTZjOTAwMjktYTdkYy00ZjMzLThiZTUtNzZmNzU0N2ZmMjM5XkEyXkFqcGdeQXVyMTEzMjQ4NzEw._V1_FMjpg_UX984_.jpg",
     imdbRating: 7.5,
-    genres: ["Fantasy"],
+    genres: ["Fantasy", "Adventure", "Magic"],
     duration: "2h 14min",
     releaseDate: "November 12, 2021",
   ),
