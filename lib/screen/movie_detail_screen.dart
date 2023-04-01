@@ -1,19 +1,19 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app_ui_slicing/screen/movie_ticket_screen.dart';
 
 import '../data/movie.dart';
 import '../ui_constants.dart';
+import '../widget/frosted_back_button.dart';
+import '../widget/frosted_duration.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final Movie movie;
 
-  MovieDetailScreen({Key? key, required this.movie}) : super(key: key);
+  const MovieDetailScreen({Key? key, required this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     EdgeInsets padding = MediaQuery.of(context).padding;
-    Size size = MediaQuery.of(context).size;
 
     return Stack(
       children: [
@@ -49,50 +49,7 @@ class MovieDetailScreen extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Padding(
-                key: Key('this-one'),
-                padding: EdgeInsets.only(bottom: padding.bottom),
-                child: Container(
-                  width: size.width,
-                  height: size.height * 0.5,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Spacer(),
-                      _buildRating(context),
-                      SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24 * 2),
-                        child: Text(
-                          movie.title,
-                          style: CustomFonts.title,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                        ),
-                      ),
-                      SizedBox(height: 14),
-                      _buildGenre(context),
-                      SizedBox(height: 20),
-                      // foto foto
-                      _buildPhotos(context),
-                      SizedBox(height: 22),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24 * 2),
-                        child: Text(
-                          movie.overview,
-                          style: CustomFonts.body,
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Spacer(),
-                      _buildBookingButton(context),
-                      Spacer(),
-                    ],
-                  ),
-                ),
-              ),
+              _buildDetailSection(context),
             ],
           ),
         ),
@@ -100,8 +57,65 @@ class MovieDetailScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildDetailSection(BuildContext context) {
+    EdgeInsets padding = MediaQuery.of(context).padding;
+    Size size = MediaQuery.of(context).size;
+
+    return Padding(
+      key: Key('this-one'),
+      padding: EdgeInsets.only(bottom: padding.bottom),
+      child: Container(
+        width: size.width,
+        height: size.height * 0.5,
+        color: Colors.white,
+        child: Column(
+          children: [
+            Spacer(),
+            _buildRating(context),
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24 * 2),
+              child: Text(
+                movie.title,
+                style: CustomFonts.title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+              ),
+            ),
+            SizedBox(height: 14),
+            _buildGenre(context),
+            SizedBox(height: 20),
+            // foto foto
+            _buildPhotos(context),
+            SizedBox(height: 22),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24 * 2),
+              child: Text(
+                movie.overview,
+                style: CustomFonts.body,
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Spacer(),
+            _buildBookingButton(context),
+            Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildBookingButton(BuildContext context) => ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MovieTicketScreen(movie: movie),
+            ),
+          );
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: CustomColors.orange,
           foregroundColor: CustomColors.white,
@@ -259,94 +273,4 @@ class MovieDetailScreen extends StatelessWidget {
             )
             .toList(),
       );
-}
-
-class FrostedBackButton extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const FrostedBackButton({Key? key, required this.onPressed})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(42),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Container(
-          height: 42,
-          width: 42,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Stack(
-            children: [
-              Center(
-                child: Container(
-                  height: 24,
-                  width: 24,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 1.5),
-                  ),
-                ),
-              ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                icon: Icon(
-                  Icons.close,
-                  size: 14,
-                  color: Colors.white,
-                ),
-                onPressed: onPressed,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class FrostedDuration extends StatelessWidget {
-  final String duration;
-
-  const FrostedDuration({Key? key, required this.duration}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(42),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 4,
-            horizontal: 6,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.access_time_outlined,
-                  color: CustomColors.anotherGray,
-                  size: 20,
-                ),
-                SizedBox(width: 4),
-                Text(
-                  duration,
-                  style: CustomFonts.body.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
