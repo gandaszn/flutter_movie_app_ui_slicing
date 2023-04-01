@@ -5,7 +5,9 @@ This is a Flutter project that showcases the UI of a movie ticket app. It includ
 Dependencies:
  * [google_fonts](https://pub.dev/packages/google_fonts) ^4.0.3
  * [carousel_slider](https://pub.dev/packages/carousel_slider) ^4.2.1
+ * [book_my_seat](https://pub.dev/packages/book_my_seat) ^1.0.1
+ * [date_picker_timeline](https://pub.dev/packages/date_picker_timeline) ^1.2.3
 
 ⚠️ Under Construction ⚠️
 
-![flutter_movie_app_ui_slicing 2 (1)](https://user-images.githubusercontent.com/129122862/228967602-657281e6-2bc6-4bac-9ade-a1c6357e7977.png)
+![flutter_movie_app_ui_slicing final](https://user-images.githubusercontent.com/129122862/229299434-5cfc835c-ac01-46c5-9ef8-295a8ad4833b.png)
